@@ -1,0 +1,34 @@
+david_guedalia
+
+
+
+
+=============================
+=      File description     =
+=============================
+SpaceShip.java - Contains a abstract class SpaceShip, and general methods of ships.
+SpaceShipFactory.java - Contains single method to create spaceships and save them in array.
+HumanShip.java - Contain the human ship class. 
+RunnerShip.java - Contain the runner ship class.
+AggressiveShip.java - This class implement a ship that pursues other ships and fire at them.
+BasherShip.java - This class implement a ship that collide with other ships.
+DrunkardShip.java - This class implement a ship that its pilot had a drink too much and every move is random.
+SpecialShip.java - Ship that is doing the most operation except of teleport, and is able to reduce life from enemy.
+
+=============================
+=          Design           =
+=============================
+I implemented one abstract class that is SpaceShip.java, the others various ships are extensions from SpaceShip
+So the other ships inhert the basic structure from the SpaceShip, and the difference between them is the doAction method, 
+which each ship have different action each round so I made this method as abstract, same as- getImage method
+(if we gonna want differen pictures for each ship in the future), Also I extend the API and add - actionEachRound method
+that every round increase the energy of the ship, and count the delay rounds.
+
+
+=============================
+=  Implementation details   =
+=============================
+I implement the DrunkardShip the space ship that the turns is based on random basis, also the shooting is not really accurate.
+and turn on the shield in probability of 0.5 and if distance is less then 0.5.
+I implement the SpecialShip, this ship pursuer after the closet ship, and always accelerate also if the ship is too close to a enemy ship,
+he will turn on the shield, and if the enemy is too close to the special ship he will decrease one life from this ship. and this is able to shoot.

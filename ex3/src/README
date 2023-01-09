@@ -1,0 +1,84 @@
+david_guedalia
+
+
+
+
+=============================
+=      File description     =
+=============================
+StorageSpaceShip.java - An abstract class that represents storage of locker.
+Locker.java - Class that represents a locker extends from StorageSpaceShip.
+LongTermStorage.java - Class that represents the long term storage of the SpaceShip extends from StorageSpaceShip.
+Spaceship.java  - Class that build the lockers in the spaceShip that associated with ID.
+BoopingSite.java - Class that represents the booping site, a website og Hotels.
+CompareByDistance.java - Class that implements from Comparator and override compare method, comparing 
+CompareByStarRating.java - Class that implements from Comparator and override compare method.
+LockerTest.java -  This class is Locker Test, This class checks the all methods of Locker.
+LongTermTest.java - This class is LongTermTest Test, This class checks the all methods of LongTermStorage.
+SpaceshipTest.java - This class is Spaceship Test, This class checks the all methods of Spaceship.
+BoopingSiteTest.java - This class is BoopingSite Test, This class checks the all methods of BoopingSite.
+SpaceshipDepositoryTest - This class responsible to run the all thest of Locker, LongTermStorage and SpaceshipTest.
+README - This file.
+
+=============================
+=          Design           =
+=============================
+Part 1:
+-------
+I implemented one abstract class that is StorageSpaceShip, that have one function that is abstract,
+the addItem, and the common methods of LongTermStorage and Locker are implemented in that class.
+this choice had made by me to avoid code duplication, and to order a logical hierarchy between
+the classes, I decided to store the infotmation of the locker in hashMap, were the key is a String, the 
+name of the locker and the value is a Integer that represents the number of copies of the item, this design
+made to make easier (run time) find if the storage contains that locker, and this check
+happends in O(1) (in avarage). this implemention made in StorageSpaceShip.java and the hashMap is
+protected variable, then the classes that heirs from them get can to this field.
+The difference between Locker and LongTermStorage is that the LongTermStorage have a constant capacity
+by defualt in contrast to the Locker which it's  obviously changeing.
+Morever, I decided that adding  items with zero copies as remove zero copies
+from item it will be success because it make scence, but I didnt store it in the
+data structure to avoid bugs.
+
+Part 2:
+------
+In this second part of the exercise I implemented the BoopingSite class, and the BoopingSiteTest,
+I run the test on the data set were given by the course,I used the empty data set to test this cases in 
+each test and asserting the excpeted, I used the short data set to verify cases that have only one city,
+also I can verify the all range of the data at methods that can a city as a input.
+And testing the big data set for varies citys and better chance to find issues in the test.
+Running the tests required city's for few methods in the BoopingSite, choosing cities that will indeed test the tests optimally.
+Because a city is needed that will indeed perform both comparisons as well, for example in HotelsInCityByProximity
+method if the distances are equal then it advance to compare between POI. So I made few testd to check
+which cities sustain's it.
+
+In the getHotelsInCityByRating method, I build first an array that contains the the whole hotels
+then I made a class CompareByStarRating that implements from Comparator, and if the two objects
+are even the method call another comparator that compare between the ABC.
+I decided to use normal array in that function to save the order in the array, because if the name is
+equal of both hotels, it will save it in the order. and also because the return type is array,
+then I dont need to transfer the data between data structure.
+To sort the array I used Array.sort, I found it easy to use and optimic run time.
+
+In the getHotelsByProximity and getHotelsInCityByProximity methods, I implement private 
+method to avoid code duplication, sortByProximity, gets the array and the locations and return 
+array sorted by Proximity, In that method I build an array that contains the the whole hotels
+then I made a class CompareByProximity that implements from Comparator, and if the two objects
+are even the method call another comparator that compare between the POI.
+I decided to use normal array in that function to save the order in the array, because if the name is
+equal of both hotels, it will save it in the order. and also because the return type is array,
+then I dont need to transfer the data between data structure.
+To sort the array I used Array.sort, I found it easy to use and optimic run time.
+
+=============================
+=  Implementation details   =
+=============================
+Part 1:
+-------
+Firstly, I implement an abstract class StorageSpaceShip, that Locker and LongTermStorage exteds from that
+class, to avoid code duplication and because the relation of those classes.
+In those classes I decide to let insert zero of items but I didnt store it, same with remove zero items.
+
+Part 2:
+-------
+I the testing I had to chose citys that will be equal in the first compartion that my test will fail implemention
+that didn't concern it, so I made few tests to check which citys sustain it.
