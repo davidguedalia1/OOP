@@ -1,0 +1,203 @@
+david_guedalia
+
+
+
+
+=============================
+=      File description     =
+=============================
+SimpleHashSet.java - Contains a abstract class SpaceShip, and general methods of ships.
+OpenHashSet.java - This class represents a open hash that extends SimpleHashSet, and implements the 
+					 operations of hash table.
+OpenHashLinkedList.java - This class is a wrapper class that has a LinkedList<String> and delegates methods to it.
+
+ClosedHashSet.java - This class represents a closed hash that extends SimpleHashSet, and implements the 
+					 operations of hash table.
+CollectionFacadeSet.java - This is the facade class implements SimpleSet, to simplify API 
+							and give a common type in the constructor.
+SimpleSetPerformanceAnalyzer.java - This class is measures the run-times requested in the
+									"Performance Analysis" section.
+RESULTS - This file contains the comparation between data set, and reviewing the time of each
+		  data for six different data sets.
+README - This file.
+=============================
+=          Design           =
+=============================
+1.) SimpleHashSet - This class  implements SimpleSet, in the constructor I reset the size and the capacity of the hash
+					to the values given in the exercise, and I made capacity method to be abstract.
+					
+2.) OpenHashSet - Have three constructors that each one of them calls "super", that creates SimpleHashSet object,
+					and then each constructor calls the method "buildOpenHash" this method creats linked list of 
+					OpenHashLinkedList type, that each element in the open hash start with linked list.
+					OpenHashLinkedList is class that have LinkedList as an instance of the class and have 
+					a method that returns the linkedlist.
+					
+					* Add method, first checks if the new element already exist in the hash, and after checks that
+					the current capacity have enough space to add another element, by calling the function
+					"calculateCapacity" this method get number one for adding and zero for deleting, because in delete
+					function I first delete the element	and then check if the current capacity is ok.
+					if the current capacity is not enough the capacity grows by 2, and "changeHashSize" this method 
+					get the new capcity, setting new  array of OpenHashLinkedList of the new capacity size. 
+					as well calling buildOpenHash method, and adding the element according the open hash.
+					otherwise just adding the element and increase the size of the element.
+					
+					* Delete method, vary similar to the add method, first check that the element is in the hash,
+					if its exist it removing the element and decrease the size by one, if the capacity is lower then
+					the minimum it return true, otherwise check if the current capcity is ok, if its not, it divide
+					the capacity by two, and calls  "changeHashSize".
+					
+3.) ClosedHashSet - Similary to the OpenHashSet the three constructors calling "super" and creats the closeHash that
+					its is array of String.
+					* Add method, first checks that the new element is not exist in the array with the contains method,
+					the contains function call "findValueClosedHash" method, this method get valuse as input for
+					each i<capacity	the method calculate the index according the closed hash if its null its mean
+					this is available place to the new value and its mean the value dosn't exist, else, if the value
+					is exist it checks that is not empty string that add because an element was deleted
+					explaination about it after.
+					if the value is exist, the method returns the index of the value.
+					then similary to the open hash we check if the current capacity is enough, and insert the value
+					with the "insertValueToHash" method that get value and the hash that we want to add the value to it.
+					insertValueToHash method
+						
+					* Delete method, calling the findValueClosedHash method if the index is -1 the function
+					return false, because the element is not exist if it is exist the method decrease the size by one,
+					and add instead of the element the empty string, this string creates as a Object of string that whole
+					the class when we add or delete element in the hash we check with "==" operation if it is an empty 
+					string from the user or its is empty string that we add when deleting an element. and then similary
+					to the open hash we check if the current capacity is okay.
+					
+4.) CollectionFacadeSet - this class receives a collection in the constructor and have an instance of this collection
+					and add, contains, delete,and size methods, add method check first if it is not null, and check 
+					that the value is not exist in the collection, same in delete method.
+
+
+5.) SimpleSetPerformanceAnalyzer - The constructor of this class build data1, and data2, which are the strings to 
+					enter to the data sets, and caliing the method arrayReset that initalize the all data sets, 
+					and build array of data sets that will be able to iterate on that array and run each test on 
+					data sets.
+					* addToSimpleSet method - gets data to add, and each data set calls addAllData()
+					* addAllData method - gets flag 1 - if print the time, 0 - otherwise. this method actually 
+						calculate the time take do add all data to specific data set.
+					* containsToSimpleSet - gets data and string as input, add the data to the data
+						set and calls containsInSimpleHash().
+					* containsInSimpleHash - make warm up if its not linked list, and actually calculate 
+						the time takes to check if the data set contains the string.
+					* main - runs the six tests:
+			
+							test 1 - addData1(sim);
+    
+							test 2 - addData2(sim);
+      
+							test 3 - containsHiData1(sim);
+       
+							test 4 - containsLongNumberData1(sim);
+
+							tset 5 - contains23Data2(sim);
+							
+							test 6 - containsHiData2(sim);
+							
+=============================
+=  Implementation details   =
+=============================
+When deleting element in close hash I create new string object that this string will be unique and even if 
+will add empty string to the hash by checking with "==" operation I can verify if it is an element that 
+removed or it is an empty string to add.
+Also I implement the OpenHashSet with a new class - OpenHashLinkedList that is actually warapper class 
+that has LinkedList<String> and the array is of that class, so I create a method in this class, to get the
+linked list of a specific element.
+
+
+=============================
+=    Answers to questions   =
+=============================
+
+1.) For open hash adding the data1.txt because the values in data1, have the same hash code so the all elements
+		goes to the same linked list, and thats why the time is close to the linked list.
+		also in test 3 check if -13170890158 contains, because it have the same hash value like data1 so 
+		it goes over all the linked list (as I explain before - all thhe elements are in the same linked list).
+		
+	For close hash adding data1.txt because the values in data1, have the same hash code so to insert value
+		each elements needs to over all the elements. so every time the it runs on the same indexes till find 
+		null element, and each iteration pass on all elements the previous iteration
+		pass.
+		also in test 3 check if -13170890158 contains, because it have the same hash value like data1 so
+		it go over the all elements like I explain before so it runs every time as the size of the hash to
+		try find the string.
+		
+2.) OpenHashSet - 
+			Strengths:
+			---------
+			Have a good time when adding strings that have different hash code, so the 
+			strings needs to be balanced, and will run the fastest if each string have a 
+			unique hash code, same for the method contains, will be very fast if the string 
+			that we want to check no one have the same hash code.
+			Weakness:
+			---------
+			Run very slow if data have same hash code or try to add lots of elements that
+			have the same hash code, as well as contains run very slow if the hash code of
+			the string is same as the data.
+			
+	ClosedHashSet- 
+			Strengths:
+			---------
+			Have a good time when adding strings that have different hash code, so the 
+			strings needs to be balanced, and will run the fastest if each string have a 
+			unique hash code, same for the method contains, will be very fast if the string 
+			that we want to check no one have the same hash code.
+			Weakness:
+			---------
+			Run very slow if data have same hash code or try to add lots of elements that
+			have the same hash code, as well as contains run very slow if the hash code of
+			the string is same as the data.
+			
+	TreeSet- 
+			Strengths:
+			---------
+			Have a good running time in adding and checking if a value it contains.
+			with no assumption on the input. 
+			Weakness:
+			---------
+			Not have the best time comparing others data set.
+			
+	HashSet- 
+			Strengths:
+			---------
+			Have the best time in adding and contains. very fast. 
+			Weakness:
+			---------
+			None
+			
+	LinkedList- 
+			Strengths:
+			---------
+			Have a slow time comparing the rest data, basically adding new element 
+			is fast for any type.
+			Weakness:
+			---------
+			Add, and Contains happends very slow basically add happends fast but because
+			it needs to check if the elements is exist so it take long time because it go 
+			over the whole list.
+	
+	I would choose hashset for all purposes, unless I know element can add more then once
+	so if I would want to have good time of searching in the data set I would prefer the tree set
+	but if it is only to add elements linkedlist can do a good enough.
+	if I have assumption on the input and I know the strings will be balances I can 
+	choose the open hash or the close hash.
+
+3.) adding data1 open hash and close hash have very slow time as I described before, but becouse 
+		the close hash have more operation it needs to do as calculate the hash, and more iteration
+		if there is collision
+	
+	adding data2 close hash was faster.
+	contains -13170890158 open hash was slower.
+	but contains "hi" close hash was slower.
+
+4.)There was lot of diffrence between them in add data - both data1 and data2
+	in the rest of the tests the difference were pretty small except of contains "hi"
+	on data1 that the hash set were slower then both of the hash I implemented.
+
+5.) Yes I found HashSet performance surprising because it had very good times in all tests
+		even if the all strings have the same hash code and win almost always the rest of the data
+		set, I can explain it, it might have different way to calculate the hash code,
+		or if there is lots of collision it can change the hash code and can be very 
+		dynamic.
