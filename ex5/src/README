@@ -1,0 +1,128 @@
+david_guedalia
+
+
+
+
+=============================
+=      File description     =
+=============================
+
+package filesprocessing
+=======================
+	DirectoryProcessor.java - The class than run the program and print the results. 
+	
+	Section.java – Section class, contains instance of Order and Filter and the warning messages
+					of the section.
+	Processor.java - This class gets the command path and go over the file, check validity, create
+						the orders and filters command and return section array.
+	SortFiles - 	This file get array of files and sort them by Quick Sort.
+	
+	TypeFirstError.java – This exception calls when Type one is throw.
+	TypeSecondError.java – This exception calls when Type one is throw.
+
+
+package orders
+=============
+	FactoryOrder.java - Is a factory of orders it creates instants of the given orders.
+	Order.java -  Abstract class Order and have an abstract method compare that compares 
+					between two files.
+		AbsOrder.java - AbsOrder class implements Order class orders the files from "a" to "z", by absolute path.
+		SizeOrder.java – SizeOrder class implements Order orders the files by the size.
+		TypeOrder.java - TypeOrder class implements Order orders the files by the type.
+
+package filters
+==============
+	FactoryFilter.java - Is a factory of orders it creates instants of the given orders.
+	Filter.java - Abstract class Order and have an abstract method isFileFilter that return True, 
+					or False if the file should filtered.
+		GreaterThanFilter.java - GreaterThan class implements Filter - and checks if the file 
+									is greater then given number.
+		SmallerThanFilter.java – SmallerThan class implements Filter - and checks if the file 
+									is smaller then given number.
+		BetweenFilter.java - BetweenFilter class implements Filter - and checks if the file 
+									is between two numbers.
+		ContainsFilter.java - ContainsFilter class implements Filter - and checks if the file 
+									containsgiven value.
+		PrefixFilter.java -  PrefixFilter class implements Filter - and checks if the file 
+									prefix with given value.
+		SuffixFilter.java –  SuffixFilter class implements Filter - and checks if the file 
+									suffix with given value.
+		WritableFilter.java - WritableFilter class implements Filter - and checks if the file 
+									is writable.
+		ExecutableFilter.java - ExecutableFilter class implements Filter - and checks if the file 
+									executable.
+		HiddenFilter.java - HiddenFilter class implements Filter - and checks if the file 
+									is hidden.
+		AllFilter.java- SuffixFilter class implements Filter - all files.
+		
+		FileFilter.java - SuffixFilter class implements Filter - and checks if the file 
+									equal to given value.
+		
+
+=============================
+=          Design           =
+=============================
+
+filters
+======
+	I implement all the filters in a package called filters and in this package. for each type I implement
+	class that implements from Filter.java overrides isFileFilter method. 
+	all the filters objects receive an instance called negativeFilter that indicadets if the filters
+	have the suffix #NOT.
+	I implement two methods in Filter.class that check validity of the command filters.
+	one method calls validFilterPermission that check validity to hidden, executable, writable.
+	and method calls validFilter that check validity to the rest of filters and gets as input the nuber
+	of arguments the filters should get.
+
+orders
+======
+	I implement all the orders in a package called orders and in this package. for each orders I implement
+	class that implements from Order.java overrides compare method.
+	Also the constructor calls method calls validOrder that checks validity of oreder command.
+	all the orders objects receive an instance called reverseOrder that indicadets if the orders
+	have the suffix #REVERSE.
+
+factory
+=======
+	I implement design factory, two classes that return an object of the filters/ orders.
+	using switch - case operation.
+	This classes dont have a constructor and have method calls makeOder/ makeFilter
+	that return the object.
+
+DirectoryProcessor
+==================
+	The DirectoryProcessor class has the main method that receives the 2 arguments, 
+	and run the program using method runProcessor() in DirectoryProcessor class.
+	that also overing the whole sections sort them and print them.
+	
+I also implement section class that the method runProcessor in DirectoryProcessor class 
+build linked list of type Section, each Section have instance of filters and orders and
+keeps the whole warning message of that section, this class make the code modularity
+as if in the future I can add more fields to the section.
+
+I also implement class that sort the files called SortFiles that have instance of orders
+and sort the files according the orders, this class use the method compare, and avoiding
+duplicate code, and make the code more generic.
+
+This design maximize understandability, decomposability, and modulary between the
+modules, because the modules are separate and each class handle his "job".
+In addition, the design allow easy expansion and changing in the future.
+when adding a new filters / orders required modify or adding only a two of classes,
+because the "single-choice" design, as well as the  filters/orders in one place.
+
+=============================
+=  Implementation details   =
+=============================
+Exceptions hierarchy- I implement two exceptions classes, TypeFirstError and TypeSecondError,
+both extends the Exception class.
+TypeFirstError has empty constructor since it doesn't need to store any message or information,
+while TypeSecondError get as inpurt the relevant message of the Error.
+The exceptions are thrown wherever to be able to catch the specific exception,
+Whenever the exception is thrown.
+
+Sorting- I implement Quick Sort algorithm for the orders types, firstly run time is O(nlogn) which is fastest.
+And is the quickest sorting from other sorting, the data structure I chose is array of File object.
+of the all files were filtered - to make the run time to be faster.
+At the beginning I used HashSet because when adding lots of file this data structure have the best
+time comparing the rest data structure as we see last exercise and because cant be two files that
+have the same name the HashSet is the best data structure.
